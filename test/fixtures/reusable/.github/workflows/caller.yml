@@ -1,0 +1,10 @@
+name: Caller
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  remote:
+    uses: acme/ci/.github/workflows/reuse.yml@v1
+    secrets: inherit
+  local:
+    uses: ./.github/workflows/reusable.yml

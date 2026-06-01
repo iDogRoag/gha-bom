@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+.turbo
+.next
+*.log
+.DS_Store
+gha-bom-report.*
+.gha-bom/current.json

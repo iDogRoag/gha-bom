@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "tool": {
+    "name": "gha-bom",
+    "version": "0.1.0"
+  },
+  "repo": {
+    "root": "/Users/idog/web projects/GHA BOOM/examples/basic",
+    "scannedAt": "2026-06-01T22:19:34.473Z",
+    "offline": true,
+    "unknowns": [
+      "Repository and organization default GITHUB_TOKEN permissions were not queried.",
+      "Branch protection, rulesets, environment protection, and action allow policies were not queried.",
+      "Secret existence and secret values were not queried.",
+      "Remote action owner identity and remote ref type were not verified.",
+      "CODEOWNERS coverage cannot be verified offline without repository policy context."
+    ]
+  },
+  "summary": {
+    "status": "pass",
+    "workflowsScanned": 1,
+    "invalidWorkflows": 0,
+    "jobsScanned": 1,
+    "actionsFound": 2,
+    "thirdPartyActions": 0,
+    "unpinnedThirdPartyActions": 0,
+    "secretsReferenced": 0,
+    "envVarsReferenced": 0,
+    "writePermissionJobs": 0,
+    "releasePaths": 0,
+    "highFindings": 0,
+    "mediumFindings": 0,
+    "lowFindings": 3
+  },
+  "score": {
+    "value": 87,
+    "label": "moderate risk",
+    "penalties": [
+      {
+        "findingId": "1f77fdd2fa34e3a3",
+        "points": 3,
+        "reason": "Config missing"
+      },
+      {
+        "findingId": "533afefdbbb3b863",
+        "points": 5,
+        "reason": "Official action is not SHA pinned"
+      },
+      {
+        "findingId": "0b37567b5241021c",
+        "points": 5,
+        "reason": "Official action is not SHA pinned"
+      }
+    ],
+    "note": "Risk score is a heuristic prioritization aid, not proof that a workflow is safe."
+  },
+  "workflows": [
+    {
+      "filePath": ".github/workflows/ci.yml",
+      "name": "CI",
+      "valid": true,
+      "triggers": [
+        {
+          "name": "pull_request",
+          "detail": null
+        },
+        {
+          "name": "push",
+          "detail": {
+            "branches": [
+              "main"
+            ]
+          }
+        }
+      ],
+      "permissions": {
+        "mode": "map",
+        "scopes": {
+          "contents": "read"
+        },
+        "source": "workflow",
+        "raw": {
+          "contents": "read"
+        }
+      },
+      "env": [],
+      "jobs": [
+        {
+          "jobId": "test",
+          "runsOn": {
+            "raw": "ubuntu-latest",
+            "labels": [
+              "ubuntu-latest"
+            ],
+            "kind": "github-hosted"
+          },
+          "permissions": {
+            "mode": "map",
+            "scopes": {
+              "contents": "read"
+            },
+            "source": "workflow",
+            "raw": {
+              "contents": "read"
+            }
+          },
+          "needs": [],
+          "secretsInherit": false,
+          "env": [],
+          "steps": [
+            {
+              "index": 0,
+              "uses": "actions/checkout@v6",
+              "env": [],
+              "action": {
+                "raw": "actions/checkout@v6",
+                "kind": "official-github-action",
+                "owner": "actions",
+                "repo": "checkout",
+                "ref": "v6",
+                "refType": "major-tag",
+                "refMutable": true,
+                "location": {
+                  "filePath": ".github/workflows/ci.yml",
+                  "workflowName": "CI",
+                  "jobId": "test",
+                  "stepIndex": 0
+                }
+              }
+            },
+            {
+              "index": 1,
+              "uses": "actions/setup-node@v6",
+              "with": {
+                "node-version": "24.x"
+              },
+              "env": [],
+              "action": {
+                "raw": "actions/setup-node@v6",
+                "kind": "official-github-action",
+                "owner": "actions",
+                "repo": "setup-node",
+                "ref": "v6",
+                "refType": "major-tag",
+                "refMutable": true,
+                "location": {
+                  "filePath": ".github/workflows/ci.yml",
+                  "workflowName": "CI",
+                  "jobId": "test",
+                  "stepIndex": 1
+                }
+              }
+            },
+            {
+              "index": 2,
+              "run": "npm ci",
+              "env": []
+            },
+            {
+              "index": 3,
+              "run": "npm test",
+              "env": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "raw": "actions/checkout@v6",
+      "kind": "official-github-action",
+      "owner": "actions",
+      "repo": "checkout",
+      "ref": "v6",
+      "refType": "major-tag",
+      "refMutable": true,
+      "location": {
+        "filePath": ".github/workflows/ci.yml",
+        "workflowName": "CI",
+        "jobId": "test",
+        "stepIndex": 0
+      }
+    },
+    {
+      "raw": "actions/setup-node@v6",
+      "kind": "official-github-action",
+      "owner": "actions",
+      "repo": "setup-node",
+      "ref": "v6",
+      "refType": "major-tag",
+      "refMutable": true,
+      "location": {
+        "filePath": ".github/workflows/ci.yml",
+        "workflowName": "CI",
+        "jobId": "test",
+        "stepIndex": 1
+      }
+    }
+  ],
+  "secrets": [],
+  "env": [],
+  "permissions": [
+    {
+      "workflow": ".github/workflows/ci.yml",
+      "permissions": {
+        "mode": "map",
+        "scopes": {
+          "contents": "read"
+        },
+        "source": "workflow",
+        "raw": {
+          "contents": "read"
+        }
+      }
+    },
+    {
+      "workflow": ".github/workflows/ci.yml",
+      "jobId": "test",
+      "permissions": {
+        "mode": "map",
+        "scopes": {
+          "contents": "read"
+        },
+        "source": "workflow",
+        "raw": {
+          "contents": "read"
+        }
+      }
+    }
+  ],
+  "runners": [
+    {
+      "workflow": ".github/workflows/ci.yml",
+      "jobId": "test",
+      "runner": {
+        "raw": "ubuntu-latest",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "kind": "github-hosted"
+      }
+    }
+  ],
+  "oidc": [],
+  "releasePaths": [],
+  "artifacts": [],
+  "caches": [],
+  "findings": [
+    {
+      "id": "1f77fdd2fa34e3a3",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Config missing",
+      "message": "No gha-bom config file was found.",
+      "filePath": "/Users/idog/web projects/GHA BOOM/examples/basic",
+      "evidence": "config missing",
+      "recommendation": "Run gha-bom init to create a project policy file when you want repeatable CI settings.",
+      "category": "config"
+    },
+    {
+      "id": "533afefdbbb3b863",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Official action is not SHA pinned",
+      "message": "Full commit SHA pinning reduces tag mutation risk even for official actions.",
+      "filePath": ".github/workflows/ci.yml",
+      "workflowName": "CI",
+      "jobId": "test",
+      "evidence": "actions/checkout@v6",
+      "recommendation": "Use a full commit SHA when you need the strongest reproducibility.",
+      "category": "pinning"
+    },
+    {
+      "id": "0b37567b5241021c",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Official action is not SHA pinned",
+      "message": "Full commit SHA pinning reduces tag mutation risk even for official actions.",
+      "filePath": ".github/workflows/ci.yml",
+      "workflowName": "CI",
+      "jobId": "test",
+      "evidence": "actions/setup-node@v6",
+      "recommendation": "Use a full commit SHA when you need the strongest reproducibility.",
+      "category": "pinning"
+    }
+  ],
+  "recommendations": [
+    "Pin third-party actions to full commit SHAs where practical."
+  ]
+}

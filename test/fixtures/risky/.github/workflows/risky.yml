@@ -1,0 +1,14 @@
+name: Risky
+on: pull_request_target
+permissions: write-all
+jobs:
+  danger:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: some-owner/some-action@v1
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish

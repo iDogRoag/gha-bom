@@ -1,0 +1,9 @@
+name: Local Composite
+description: Example local composite action
+runs:
+  using: composite
+  steps:
+    - name: Nested third party
+      uses: some-owner/nested-action@main
+    - shell: bash
+      run: echo local

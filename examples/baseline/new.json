@@ -1,0 +1,815 @@
+{
+  "schemaVersion": 1,
+  "tool": {
+    "name": "gha-bom",
+    "version": "0.1.0"
+  },
+  "repo": {
+    "root": "/Users/idog/web projects/GHA BOOM/examples/risky",
+    "scannedAt": "2026-06-01T22:19:34.474Z",
+    "offline": true,
+    "unknowns": [
+      "Repository and organization default GITHUB_TOKEN permissions were not queried.",
+      "Branch protection, rulesets, environment protection, and action allow policies were not queried.",
+      "Secret existence and secret values were not queried.",
+      "Remote action owner identity and remote ref type were not verified.",
+      "CODEOWNERS coverage cannot be verified offline without repository policy context."
+    ]
+  },
+  "summary": {
+    "status": "fail",
+    "workflowsScanned": 1,
+    "invalidWorkflows": 0,
+    "jobsScanned": 1,
+    "actionsFound": 2,
+    "thirdPartyActions": 1,
+    "unpinnedThirdPartyActions": 1,
+    "secretsReferenced": 1,
+    "envVarsReferenced": 1,
+    "writePermissionJobs": 1,
+    "releasePaths": 1,
+    "highFindings": 12,
+    "mediumFindings": 4,
+    "lowFindings": 10
+  },
+  "score": {
+    "value": 0,
+    "label": "critical risk",
+    "penalties": [
+      {
+        "findingId": "1f77fdd2fa34e3a3",
+        "points": 3,
+        "reason": "Config missing"
+      },
+      {
+        "findingId": "ef094a187af9900e",
+        "points": 25,
+        "reason": "Workflow uses write-all permissions"
+      },
+      {
+        "findingId": "456ba670992146d2",
+        "points": 30,
+        "reason": "pull_request_target trigger needs review"
+      },
+      {
+        "findingId": "d1c630ffb23583e9",
+        "points": 25,
+        "reason": "Job uses write-all permissions"
+      },
+      {
+        "findingId": "e9ec72a8402383e5",
+        "points": 3,
+        "reason": "Job has contents: write"
+      },
+      {
+        "findingId": "bb544013fe01b2b1",
+        "points": 3,
+        "reason": "Job has packages: write"
+      },
+      {
+        "findingId": "568ffa1bcba03800",
+        "points": 3,
+        "reason": "Job has pages: write"
+      },
+      {
+        "findingId": "4f400f4db7a32b75",
+        "points": 3,
+        "reason": "Job has pull-requests: write"
+      },
+      {
+        "findingId": "e65ee8250bf3e6a1",
+        "points": 3,
+        "reason": "Job has issues: write"
+      },
+      {
+        "findingId": "5d59a071e27c4956",
+        "points": 3,
+        "reason": "Job has security-events: write"
+      },
+      {
+        "findingId": "b51903a47145089e",
+        "points": 3,
+        "reason": "Job has attestations: write"
+      },
+      {
+        "findingId": "97ae531e18431e3f",
+        "points": 3,
+        "reason": "Job has actions: write"
+      },
+      {
+        "findingId": "242c3348fbcc7b32",
+        "points": 25,
+        "reason": "pull_request_target uses write-all"
+      },
+      {
+        "findingId": "8815dc73392e59eb",
+        "points": 20,
+        "reason": "pull_request_target has write permissions"
+      },
+      {
+        "findingId": "1a0c9c211574d32b",
+        "points": 30,
+        "reason": "pull_request_target checks out PR head"
+      },
+      {
+        "findingId": "dafdab0639dedfb9",
+        "points": 20,
+        "reason": "pull_request_target references secrets"
+      },
+      {
+        "findingId": "a072579946ab06cc",
+        "points": 25,
+        "reason": "pull_request_target uses self-hosted runner"
+      },
+      {
+        "findingId": "87fc6b9bba1e0ed9",
+        "points": 20,
+        "reason": "Third-party action on pull_request_target with write permission"
+      },
+      {
+        "findingId": "bcd900967f8a83ee",
+        "points": 25,
+        "reason": "Self-hosted runner used on pull request trigger"
+      },
+      {
+        "findingId": "674fd907f6af8e5f",
+        "points": 5,
+        "reason": "Official action is not SHA pinned"
+      },
+      {
+        "findingId": "6e2f6e9dcd2e588c",
+        "points": 15,
+        "reason": "Third-party action is not SHA pinned"
+      },
+      {
+        "findingId": "7f80ff910f77f76f",
+        "points": 25,
+        "reason": "Secret passed to unpinned third-party action"
+      },
+      {
+        "findingId": "d214defddc307ccd",
+        "points": 10,
+        "reason": "id-token write with no detected OIDC use"
+      },
+      {
+        "findingId": "a68d92ec98add667",
+        "points": 20,
+        "reason": "OIDC enabled in pull_request_target workflow"
+      },
+      {
+        "findingId": "eee7a8f94abcc60b",
+        "points": 20,
+        "reason": "Release path uses unpinned third-party action"
+      },
+      {
+        "findingId": "f94733282a317725",
+        "points": 10,
+        "reason": "Release path uses secret-like credentials"
+      }
+    ],
+    "note": "Risk score is a heuristic prioritization aid, not proof that a workflow is safe."
+  },
+  "workflows": [
+    {
+      "filePath": ".github/workflows/risky.yml",
+      "name": "Risky",
+      "valid": true,
+      "triggers": [
+        {
+          "name": "pull_request_target"
+        }
+      ],
+      "permissions": {
+        "mode": "write-all",
+        "scopes": {
+          "actions": "write",
+          "artifact-metadata": "write",
+          "attestations": "write",
+          "checks": "write",
+          "code-quality": "write",
+          "contents": "write",
+          "deployments": "write",
+          "discussions": "write",
+          "id-token": "write",
+          "issues": "write",
+          "models": "write",
+          "packages": "write",
+          "pages": "write",
+          "pull-requests": "write",
+          "security-events": "write",
+          "statuses": "write",
+          "vulnerability-alerts": "write"
+        },
+        "source": "workflow",
+        "raw": "write-all"
+      },
+      "env": [],
+      "jobs": [
+        {
+          "jobId": "danger",
+          "runsOn": {
+            "raw": "self-hosted",
+            "labels": [
+              "self-hosted"
+            ],
+            "kind": "self-hosted"
+          },
+          "permissions": {
+            "mode": "write-all",
+            "scopes": {
+              "actions": "write",
+              "artifact-metadata": "write",
+              "attestations": "write",
+              "checks": "write",
+              "code-quality": "write",
+              "contents": "write",
+              "deployments": "write",
+              "discussions": "write",
+              "id-token": "write",
+              "issues": "write",
+              "models": "write",
+              "packages": "write",
+              "pages": "write",
+              "pull-requests": "write",
+              "security-events": "write",
+              "statuses": "write",
+              "vulnerability-alerts": "write"
+            },
+            "source": "workflow",
+            "raw": "write-all"
+          },
+          "needs": [],
+          "secretsInherit": false,
+          "env": [],
+          "steps": [
+            {
+              "index": 0,
+              "uses": "actions/checkout@v6",
+              "with": {
+                "ref": "${{ github.event.pull_request.head.sha }}"
+              },
+              "env": [],
+              "action": {
+                "raw": "actions/checkout@v6",
+                "kind": "official-github-action",
+                "owner": "actions",
+                "repo": "checkout",
+                "ref": "v6",
+                "refType": "major-tag",
+                "refMutable": true,
+                "location": {
+                  "filePath": ".github/workflows/risky.yml",
+                  "workflowName": "Risky",
+                  "jobId": "danger",
+                  "stepIndex": 0
+                }
+              }
+            },
+            {
+              "index": 1,
+              "uses": "some-owner/some-action@v1",
+              "env": [
+                {
+                  "name": "NPM_TOKEN",
+                  "valueRedacted": "[redacted]",
+                  "secretLike": true,
+                  "location": {
+                    "filePath": ".github/workflows/risky.yml",
+                    "workflowName": "Risky",
+                    "jobId": "danger",
+                    "stepIndex": 1
+                  }
+                }
+              ],
+              "action": {
+                "raw": "some-owner/some-action@v1",
+                "kind": "third-party-action",
+                "owner": "some-owner",
+                "repo": "some-action",
+                "ref": "v1",
+                "refType": "major-tag",
+                "refMutable": true,
+                "location": {
+                  "filePath": ".github/workflows/risky.yml",
+                  "workflowName": "Risky",
+                  "jobId": "danger",
+                  "stepIndex": 1
+                }
+              }
+            },
+            {
+              "index": 2,
+              "run": "npm publish",
+              "env": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "raw": "actions/checkout@v6",
+      "kind": "official-github-action",
+      "owner": "actions",
+      "repo": "checkout",
+      "ref": "v6",
+      "refType": "major-tag",
+      "refMutable": true,
+      "location": {
+        "filePath": ".github/workflows/risky.yml",
+        "workflowName": "Risky",
+        "jobId": "danger",
+        "stepIndex": 0
+      }
+    },
+    {
+      "raw": "some-owner/some-action@v1",
+      "kind": "third-party-action",
+      "owner": "some-owner",
+      "repo": "some-action",
+      "ref": "v1",
+      "refType": "major-tag",
+      "refMutable": true,
+      "location": {
+        "filePath": ".github/workflows/risky.yml",
+        "workflowName": "Risky",
+        "jobId": "danger",
+        "stepIndex": 1
+      }
+    }
+  ],
+  "secrets": [
+    {
+      "name": "NPM_TOKEN",
+      "source": "env-key",
+      "location": {
+        "filePath": ".github/workflows/risky.yml",
+        "workflowName": "Risky",
+        "jobId": "danger",
+        "stepIndex": 1
+      },
+      "context": "env"
+    }
+  ],
+  "env": [
+    {
+      "name": "NPM_TOKEN",
+      "valueRedacted": "[redacted]",
+      "secretLike": true,
+      "location": {
+        "filePath": ".github/workflows/risky.yml",
+        "workflowName": "Risky",
+        "jobId": "danger",
+        "stepIndex": 1
+      }
+    }
+  ],
+  "permissions": [
+    {
+      "workflow": ".github/workflows/risky.yml",
+      "permissions": {
+        "mode": "write-all",
+        "scopes": {
+          "actions": "write",
+          "artifact-metadata": "write",
+          "attestations": "write",
+          "checks": "write",
+          "code-quality": "write",
+          "contents": "write",
+          "deployments": "write",
+          "discussions": "write",
+          "id-token": "write",
+          "issues": "write",
+          "models": "write",
+          "packages": "write",
+          "pages": "write",
+          "pull-requests": "write",
+          "security-events": "write",
+          "statuses": "write",
+          "vulnerability-alerts": "write"
+        },
+        "source": "workflow",
+        "raw": "write-all"
+      }
+    },
+    {
+      "workflow": ".github/workflows/risky.yml",
+      "jobId": "danger",
+      "permissions": {
+        "mode": "write-all",
+        "scopes": {
+          "actions": "write",
+          "artifact-metadata": "write",
+          "attestations": "write",
+          "checks": "write",
+          "code-quality": "write",
+          "contents": "write",
+          "deployments": "write",
+          "discussions": "write",
+          "id-token": "write",
+          "issues": "write",
+          "models": "write",
+          "packages": "write",
+          "pages": "write",
+          "pull-requests": "write",
+          "security-events": "write",
+          "statuses": "write",
+          "vulnerability-alerts": "write"
+        },
+        "source": "workflow",
+        "raw": "write-all"
+      }
+    }
+  ],
+  "runners": [
+    {
+      "workflow": ".github/workflows/risky.yml",
+      "jobId": "danger",
+      "runner": {
+        "raw": "self-hosted",
+        "labels": [
+          "self-hosted"
+        ],
+        "kind": "self-hosted"
+      }
+    }
+  ],
+  "oidc": [
+    {
+      "type": "permission",
+      "provider": "unknown",
+      "location": {
+        "filePath": ".github/workflows/risky.yml",
+        "workflowName": "Risky",
+        "jobId": "danger"
+      },
+      "evidence": "id-token: write"
+    }
+  ],
+  "releasePaths": [
+    {
+      "type": "package",
+      "ecosystem": "npm",
+      "registry": "npmjs.org",
+      "commandOrAction": "npm publish",
+      "workflow": "Risky",
+      "job": "danger",
+      "requiresSecrets": true,
+      "requiresWritePermission": true,
+      "usesOIDC": true,
+      "risk": "medium",
+      "location": {
+        "filePath": ".github/workflows/risky.yml",
+        "workflowName": "Risky",
+        "jobId": "danger",
+        "stepIndex": 2
+      }
+    }
+  ],
+  "artifacts": [],
+  "caches": [],
+  "findings": [
+    {
+      "id": "1f77fdd2fa34e3a3",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Config missing",
+      "message": "No gha-bom config file was found.",
+      "filePath": "/Users/idog/web projects/GHA BOOM/examples/risky",
+      "evidence": "config missing",
+      "recommendation": "Run gha-bom init to create a project policy file when you want repeatable CI settings.",
+      "category": "config"
+    },
+    {
+      "id": "ef094a187af9900e",
+      "severity": "high",
+      "confidence": "high",
+      "title": "Workflow uses write-all permissions",
+      "message": "write-all grants broad GITHUB_TOKEN write access to every job unless overridden.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "evidence": "permissions: write-all",
+      "recommendation": "Replace write-all with explicit least-privilege job permissions.",
+      "category": "permissions"
+    },
+    {
+      "id": "456ba670992146d2",
+      "severity": "medium",
+      "confidence": "high",
+      "title": "pull_request_target trigger needs review",
+      "message": "pull_request_target runs in a privileged context and is dangerous when combined with write permissions, secrets, checkout of PR head, or untrusted scripts.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "evidence": "on: pull_request_target",
+      "recommendation": "Use pull_request where possible, or isolate privileged logic from untrusted pull request code.",
+      "category": "trigger"
+    },
+    {
+      "id": "d1c630ffb23583e9",
+      "severity": "high",
+      "confidence": "high",
+      "title": "Job uses write-all permissions",
+      "message": "This job has broad write access through GITHUB_TOKEN.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "permissions: write-all",
+      "recommendation": "Replace write-all with explicit job-level scopes.",
+      "category": "permissions"
+    },
+    {
+      "id": "e9ec72a8402383e5",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has contents: write",
+      "message": "This job can write to the contents permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "contents: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "bb544013fe01b2b1",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has packages: write",
+      "message": "This job can write to the packages permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "packages: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "568ffa1bcba03800",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has pages: write",
+      "message": "This job can write to the pages permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "pages: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "4f400f4db7a32b75",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has pull-requests: write",
+      "message": "This job can write to the pull-requests permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "pull-requests: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "e65ee8250bf3e6a1",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has issues: write",
+      "message": "This job can write to the issues permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "issues: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "5d59a071e27c4956",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has security-events: write",
+      "message": "This job can write to the security-events permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "security-events: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "b51903a47145089e",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has attestations: write",
+      "message": "This job can write to the attestations permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "attestations: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "97ae531e18431e3f",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Job has actions: write",
+      "message": "This job can write to the actions permission scope.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "actions: write",
+      "recommendation": "Confirm this write scope is required and keep it at job scope.",
+      "category": "permissions"
+    },
+    {
+      "id": "242c3348fbcc7b32",
+      "severity": "high",
+      "confidence": "high",
+      "title": "pull_request_target uses write-all",
+      "message": "This privileged pull request workflow has broad write permissions.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "pull_request_target + write-all",
+      "recommendation": "Avoid write-all in pull_request_target workflows.",
+      "category": "trigger"
+    },
+    {
+      "id": "8815dc73392e59eb",
+      "severity": "high",
+      "confidence": "high",
+      "title": "pull_request_target has write permissions",
+      "message": "A privileged pull request workflow with write permissions can be dangerous if untrusted code runs in the job.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "{\"actions\":\"write\",\"artifact-metadata\":\"write\",\"attestations\":\"write\",\"checks\":\"write\",\"code-quality\":\"write\",\"contents\":\"write\",\"deployments\":\"write\",\"discussions\":\"write\",\"id-token\":\"write\",\"issues\":\"write\",\"models\":\"write\",\"packages\":\"write\",\"pages\":\"write\",\"pull-requests\":\"write\",\"security-events\":\"write\",\"statuses\":\"write\",\"vulnerability-alerts\":\"write\"}",
+      "recommendation": "Use read-only permissions unless the privileged job is isolated from untrusted input.",
+      "category": "trigger"
+    },
+    {
+      "id": "1a0c9c211574d32b",
+      "severity": "high",
+      "confidence": "high",
+      "title": "pull_request_target checks out PR head",
+      "message": "Checking out untrusted pull request code in pull_request_target can expose privileged tokens or secrets.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "checkout ref references github.event.pull_request.head",
+      "recommendation": "Do not check out untrusted PR head code in pull_request_target jobs.",
+      "category": "trigger"
+    },
+    {
+      "id": "dafdab0639dedfb9",
+      "severity": "high",
+      "confidence": "high",
+      "title": "pull_request_target references secrets",
+      "message": "Secrets referenced in privileged pull request workflows need careful isolation from untrusted code.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "NPM_TOKEN",
+      "recommendation": "Avoid secrets in pull_request_target or split privileged steps into a separate trusted workflow.",
+      "category": "secrets"
+    },
+    {
+      "id": "a072579946ab06cc",
+      "severity": "high",
+      "confidence": "high",
+      "title": "pull_request_target uses self-hosted runner",
+      "message": "Self-hosted runners can expose persistent infrastructure to untrusted pull request behavior.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "self-hosted",
+      "recommendation": "Use GitHub-hosted runners for untrusted pull request workflows.",
+      "category": "runner"
+    },
+    {
+      "id": "87fc6b9bba1e0ed9",
+      "severity": "high",
+      "confidence": "high",
+      "title": "Third-party action on pull_request_target with write permission",
+      "message": "A mutable third-party action can change underneath a privileged pull request workflow.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "some-owner/some-action@v1",
+      "recommendation": "Pin third-party actions in privileged workflows to full commit SHAs.",
+      "category": "pinning"
+    },
+    {
+      "id": "bcd900967f8a83ee",
+      "severity": "high",
+      "confidence": "high",
+      "title": "Self-hosted runner used on pull request trigger",
+      "message": "Self-hosted runners can expose persistent infrastructure to untrusted pull request code.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "self-hosted",
+      "recommendation": "Use GitHub-hosted runners for untrusted pull request workflows or isolate self-hosted runners tightly.",
+      "category": "runner"
+    },
+    {
+      "id": "674fd907f6af8e5f",
+      "severity": "low",
+      "confidence": "high",
+      "title": "Official action is not SHA pinned",
+      "message": "Full commit SHA pinning reduces tag mutation risk even for official actions.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "actions/checkout@v6",
+      "recommendation": "Use a full commit SHA when you need the strongest reproducibility.",
+      "category": "pinning"
+    },
+    {
+      "id": "6e2f6e9dcd2e588c",
+      "severity": "medium",
+      "confidence": "high",
+      "title": "Third-party action is not SHA pinned",
+      "message": "Mutable or partial refs can change without a workflow file change. Offline mode cannot verify the remote owner or ref.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "some-owner/some-action@v1",
+      "recommendation": "Pin this reference to a full commit SHA or explicitly trust the owner in gha-bom.yml.",
+      "category": "pinning"
+    },
+    {
+      "id": "7f80ff910f77f76f",
+      "severity": "high",
+      "confidence": "high",
+      "title": "Secret passed to unpinned third-party action",
+      "message": "Secrets can be exposed if a mutable third-party action is compromised or retagged.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "NPM_TOKEN -> some-owner/some-action@v1",
+      "recommendation": "Pin the third-party action to a full commit SHA or remove the secret from that step.",
+      "category": "secrets"
+    },
+    {
+      "id": "d214defddc307ccd",
+      "severity": "medium",
+      "confidence": "medium",
+      "title": "id-token write with no detected OIDC use",
+      "message": "This job can mint OIDC tokens, but gha-bom did not detect a matching cloud login or OIDC command.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "id-token: write",
+      "recommendation": "Remove id-token: write unless this job needs OIDC federation.",
+      "category": "oidc"
+    },
+    {
+      "id": "a68d92ec98add667",
+      "severity": "high",
+      "confidence": "high",
+      "title": "OIDC enabled in pull_request_target workflow",
+      "message": "A privileged pull request workflow can mint OIDC tokens.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "id-token: write",
+      "recommendation": "Avoid id-token: write in pull_request_target workflows.",
+      "category": "oidc"
+    },
+    {
+      "id": "eee7a8f94abcc60b",
+      "severity": "high",
+      "confidence": "high",
+      "title": "Release path uses unpinned third-party action",
+      "message": "A release or publish job depends on a mutable third-party action.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "npm publish; some-owner/some-action@v1",
+      "recommendation": "Pin third-party actions in release jobs to full commit SHAs.",
+      "category": "publish"
+    },
+    {
+      "id": "f94733282a317725",
+      "severity": "medium",
+      "confidence": "medium",
+      "title": "Release path uses secret-like credentials",
+      "message": "This publish or release path references secrets or GITHUB_TOKEN.",
+      "filePath": ".github/workflows/risky.yml",
+      "workflowName": "Risky",
+      "jobId": "danger",
+      "evidence": "npm publish",
+      "recommendation": "Prefer OIDC or trusted publishing where available, and keep credentials scoped to the target registry.",
+      "category": "publish"
+    }
+  ],
+  "recommendations": [
+    "Declare least-privilege permissions at workflow or job level.",
+    "Pin third-party actions to full commit SHAs where practical.",
+    "Review where secrets and GITHUB_TOKEN can flow, including implicit token access.",
+    "Treat pull_request_target and workflow_run as privileged triggers and keep untrusted code away from them.",
+    "Put release and package publishing jobs behind explicit permissions and protected environments."
+  ]
+}
