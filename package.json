@@ -27,12 +27,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR_USERNAME/gha-bom.git"
+    "url": "git+https://github.com/iDogRoag/gha-bom.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/gha-bom/issues"
+    "url": "https://github.com/iDogRoag/gha-bom/issues"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/gha-bom#readme",
+  "homepage": "https://github.com/iDogRoag/gha-bom#readme",
   "keywords": [
     "github-actions",
     "security",
