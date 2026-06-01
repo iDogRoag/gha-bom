@@ -14,6 +14,7 @@ import { computeRiskScore } from "./score.js";
 import type {
   ActionReference,
   ArtifactUse,
+  BadgeInfo,
   CacheUse,
   CliScanOptions,
   EnvReference,
@@ -121,6 +122,7 @@ export async function scanRepository(targetPath: string, options: CliScanOptions
       lowFindings
     },
     score,
+    badge: options.badge ? createBadge(score.value) : undefined,
     workflows,
     actions,
     secrets,
@@ -137,6 +139,16 @@ export async function scanRepository(targetPath: string, options: CliScanOptions
 
   report.recommendations = recommendationsFor(report);
   return report;
+}
+
+function createBadge(score: number): BadgeInfo {
+  const color = score >= 90 ? "brightgreen" : score >= 70 ? "yellowgreen" : score >= 50 ? "yellow" : "orange";
+  const label = `gha-bom risk ${score}/100`;
+  return {
+    label,
+    color,
+    markdown: `![gha-bom risk score](https://img.shields.io/badge/gha--bom-risk%20${score}%2F100-${color})`
+  };
 }
 
 function collectActionReferences(workflows: WorkflowBom[]): ActionReference[] {

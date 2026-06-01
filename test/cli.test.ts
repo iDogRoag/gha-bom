@@ -25,6 +25,40 @@ describe("cli", () => {
     expect(JSON.parse(result.stdout).schemaVersion).toBe(1);
   });
 
+  it("gha-bom demo works", () => {
+    const result = run(["demo"]);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("gha-bom");
+    expect(result.stdout).toContain("Top risks");
+  });
+
+  it("gbom demo works through the shared bin target", async () => {
+    const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
+    expect(packageJson.bin.gbom).toBe(packageJson.bin["gha-bom"]);
+    const result = run(["demo"]);
+    expect(result.status).toBe(0);
+  });
+
+  it("gha-bom demo --format json works", () => {
+    const result = run(["demo", "--format", "json"]);
+    expect(result.status).toBe(0);
+    expect(JSON.parse(result.stdout).summary.workflowsScanned).toBe(1);
+  });
+
+  it("gha-bom demo --format markdown works", () => {
+    const result = run(["demo", "--format", "markdown"]);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("# gha-bom report");
+  });
+
+  it("gha-bom demo --format html --output works", async () => {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "gha-bom-demo-html-"));
+    const output = path.join(dir, "demo.html");
+    const result = run(["demo", "--format", "html", "--output", output]);
+    expect(result.status).toBe(0);
+    expect(await fs.readFile(output, "utf8")).toContain("<!doctype html>");
+  });
+
   it("gha-bom explain fixture workflow works", () => {
     const result = run(["explain", "test/fixtures/risky/.github/workflows/risky.yml", "--format", "markdown"]);
     expect(result.status).toBe(0);
@@ -76,6 +110,33 @@ describe("cli", () => {
     expect(await fs.readFile(output, "utf8")).toContain("gha-bom report");
     const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
     expect(packageJson.bin.gbom).toBe("./dist/cli.js");
+  });
+
+  it("--badge outputs badge Markdown", () => {
+    const result = run(["scan", "test/fixtures/risky", "--badge"]);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("![gha-bom risk score]");
+    expect(result.stdout).toContain("img.shields.io/badge/gha--bom-risk");
+  });
+
+  it("JSON output includes badge object when --badge is used", () => {
+    const result = run(["scan", "test/fixtures/risky", "--format", "json", "--badge"]);
+    expect(result.status).toBe(0);
+    expect(JSON.parse(result.stdout).badge.markdown).toContain("img.shields.io");
+  });
+
+  it("no workflow repo exits 0 and suggests demo", async () => {
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "gha-bom-empty-"));
+    const result = run(["scan", dir]);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("No GitHub Actions workflows found.");
+    expect(result.stdout).toContain("Try gha-bom demo");
+  });
+
+  it("default terminal output limits findings to top 5", () => {
+    const result = run(["scan", "test/fixtures/risky"]);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("Showing top 5 findings.");
   });
 });
 

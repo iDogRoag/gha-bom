@@ -4,23 +4,52 @@ title: "Bug: "
 labels:
   - bug
 body:
-  - type: textarea
-    id: summary
+  - type: input
+    id: gha_bom_version
     attributes:
-      label: Summary
-      description: What happened?
+      label: gha-bom version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: node_version
+    attributes:
+      label: Node version
+      placeholder: "v24.16.0"
+    validations:
+      required: true
+  - type: input
+    id: operating_system
+    attributes:
+      label: Operating system
+      placeholder: "macOS 15, Ubuntu 24.04, Windows 11"
     validations:
       required: true
   - type: textarea
-    id: reproduce
+    id: command_run
     attributes:
-      label: Reproduction
-      description: Steps or fixture needed to reproduce.
+      label: Command run
+      render: shell
+      placeholder: "gha-bom scan . --format json"
     validations:
       required: true
   - type: textarea
-    id: expected
+    id: expected_behavior
     attributes:
       label: Expected behavior
     validations:
       required: true
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: minimal_workflow_yaml
+    attributes:
+      label: Minimal workflow YAML
+      description: Paste the smallest workflow that reproduces the issue. Redact secret values.
+      render: yaml
+    validations:
+      required: false

@@ -29,11 +29,11 @@ describe("reporters", () => {
     expect(html).not.toContain("<script>alert(1)</script>");
   });
 
-  it("Table reporter includes score and top findings", async () => {
+  it("Table reporter includes score and top risks", async () => {
     const report = await reportFixture();
     const table = renderTable(report);
     expect(table).toContain("Risk score");
-    expect(table).toContain("Top findings");
+    expect(table).toContain("Top risks");
   });
 });
 

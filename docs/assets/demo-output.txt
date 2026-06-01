@@ -1,0 +1,32 @@
+gha-bom
+
+Status fail
+Risk score 0 out of 100 (critical risk)
+Workflows 1 workflows, 1 jobs
+Actions 2 total, 1 third party, 1 unpinned third party
+Access 1 secrets, 1 jobs with write permissions, 1 release paths
+Findings 12 high, 4 medium, 10 low
+
+Top risks
+- [high] Workflow uses write-all permissions .github/workflows/risky.yml
+  Replace write-all with explicit least-privilege job permissions.
+- [high] Job uses write-all permissions .github/workflows/risky.yml danger
+  Replace write-all with explicit job-level scopes.
+- [high] pull_request_target uses write-all .github/workflows/risky.yml danger
+  Avoid write-all in pull_request_target workflows.
+- [high] pull_request_target has write permissions .github/workflows/risky.yml danger
+  Use read-only permissions unless the privileged job is isolated from untrusted input.
+- [high] pull_request_target checks out PR head .github/workflows/risky.yml danger
+  Do not check out untrusted PR head code in pull_request_target jobs.
+
+Showing top 5 findings.
+Use --show-workflows or --format markdown for details.
+
+Next steps
+- Declare least-privilege permissions at workflow or job level.
+- Pin third-party actions to full commit SHAs where practical.
+- Review where secrets and GITHUB_TOKEN can flow, including implicit token access.
+- Treat pull_request_target and workflow_run as privileged triggers and keep untrusted code away from them.
+- Put release and package publishing jobs behind explicit permissions and protected environments.
+
+Static offline analysis. Not proof that a workflow is safe.

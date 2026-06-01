@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gha-bom report</title>
+  <style>
+    :root { color-scheme: light dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { margin: 0; padding: 32px; background: Canvas; color: CanvasText; }
+    main { max-width: 1180px; margin: 0 auto; }
+    h1 { margin: 0 0 24px; font-size: 32px; }
+    h2 { margin: 32px 0 12px; font-size: 20px; }
+    .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+    .summary div { border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 8px; padding: 14px; }
+    .summary span, .summary small { display: block; color: color-mix(in srgb, CanvasText 62%, transparent); }
+    .summary strong { display: block; font-size: 30px; margin: 4px 0; }
+    .badge { display: inline-block; margin: 18px 0 0; padding: 6px 10px; border-radius: 6px; color: #111827; font-size: 14px; font-weight: 700; }
+    .badge-brightgreen { background: #4c1; }
+    .badge-yellowgreen { background: #97ca00; }
+    .badge-yellow { background: #dfb317; }
+    .badge-orange { background: #fe7d37; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; vertical-align: top; border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent); padding: 8px; }
+    th { background: color-mix(in srgb, CanvasText 7%, transparent); }
+    .note { margin-top: 32px; color: color-mix(in srgb, CanvasText 68%, transparent); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>gha-bom report</h1>
+    
+    <section class="summary">
+      <div><span>Risk score</span><strong>0</strong><small>critical risk</small></div>
+      <div><span>Workflows</span><strong>1</strong><small>1 jobs</small></div>
+      <div><span>Actions</span><strong>2</strong><small>1 third party</small></div>
+      <div><span>Findings</span><strong>12</strong><small>high severity</small></div>
+    </section>
+    
+    <section>
+      <h2>Top findings</h2>
+      <table><thead><tr><th>Severity</th><th>Confidence</th><th>Finding</th><th>Location</th><th>Recommendation</th></tr></thead><tbody><tr><td>low</td><td>high</td><td>Config missing</td><td>/Users/idog/web projects/GHA BOOM/examples/risky</td><td>Run gha-bom init to create a project policy file when you want repeatable CI settings.</td></tr><tr><td>high</td><td>high</td><td>Workflow uses write-all permissions</td><td>.github/workflows/risky.yml</td><td>Replace write-all with explicit least-privilege job permissions.</td></tr><tr><td>medium</td><td>high</td><td>pull_request_target trigger needs review</td><td>.github/workflows/risky.yml</td><td>Use pull_request where possible, or isolate privileged logic from untrusted pull request code.</td></tr><tr><td>high</td><td>high</td><td>Job uses write-all permissions</td><td>.github/workflows/risky.yml danger</td><td>Replace write-all with explicit job-level scopes.</td></tr><tr><td>low</td><td>high</td><td>Job has contents: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>low</td><td>high</td><td>Job has packages: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>low</td><td>high</td><td>Job has pages: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>low</td><td>high</td><td>Job has pull-requests: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>low</td><td>high</td><td>Job has issues: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>low</td><td>high</td><td>Job has security-events: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>low</td><td>high</td><td>Job has attestations: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>low</td><td>high</td><td>Job has actions: write</td><td>.github/workflows/risky.yml danger</td><td>Confirm this write scope is required and keep it at job scope.</td></tr><tr><td>high</td><td>high</td><td>pull_request_target uses write-all</td><td>.github/workflows/risky.yml danger</td><td>Avoid write-all in pull_request_target workflows.</td></tr><tr><td>high</td><td>high</td><td>pull_request_target has write permissions</td><td>.github/workflows/risky.yml danger</td><td>Use read-only permissions unless the privileged job is isolated from untrusted input.</td></tr><tr><td>high</td><td>high</td><td>pull_request_target checks out PR head</td><td>.github/workflows/risky.yml danger</td><td>Do not check out untrusted PR head code in pull_request_target jobs.</td></tr><tr><td>high</td><td>high</td><td>pull_request_target references secrets</td><td>.github/workflows/risky.yml danger</td><td>Avoid secrets in pull_request_target or split privileged steps into a separate trusted workflow.</td></tr><tr><td>high</td><td>high</td><td>pull_request_target uses self-hosted runner</td><td>.github/workflows/risky.yml danger</td><td>Use GitHub-hosted runners for untrusted pull request workflows.</td></tr><tr><td>high</td><td>high</td><td>Third-party action on pull_request_target with write permission</td><td>.github/workflows/risky.yml danger</td><td>Pin third-party actions in privileged workflows to full commit SHAs.</td></tr><tr><td>high</td><td>high</td><td>Self-hosted runner used on pull request trigger</td><td>.github/workflows/risky.yml danger</td><td>Use GitHub-hosted runners for untrusted pull request workflows or isolate self-hosted runners tightly.</td></tr><tr><td>low</td><td>high</td><td>Official action is not SHA pinned</td><td>.github/workflows/risky.yml danger</td><td>Use a full commit SHA when you need the strongest reproducibility.</td></tr><tr><td>medium</td><td>high</td><td>Third-party action is not SHA pinned</td><td>.github/workflows/risky.yml danger</td><td>Pin this reference to a full commit SHA or explicitly trust the owner in gha-bom.yml.</td></tr><tr><td>high</td><td>high</td><td>Secret passed to unpinned third-party action</td><td>.github/workflows/risky.yml danger</td><td>Pin the third-party action to a full commit SHA or remove the secret from that step.</td></tr><tr><td>medium</td><td>medium</td><td>id-token write with no detected OIDC use</td><td>.github/workflows/risky.yml danger</td><td>Remove id-token: write unless this job needs OIDC federation.</td></tr><tr><td>high</td><td>high</td><td>OIDC enabled in pull_request_target workflow</td><td>.github/workflows/risky.yml danger</td><td>Avoid id-token: write in pull_request_target workflows.</td></tr><tr><td>high</td><td>high</td><td>Release path uses unpinned third-party action</td><td>.github/workflows/risky.yml danger</td><td>Pin third-party actions in release jobs to full commit SHAs.</td></tr><tr><td>medium</td><td>medium</td><td>Release path uses secret-like credentials</td><td>.github/workflows/risky.yml danger</td><td>Prefer OIDC or trusted publishing where available, and keep credentials scoped to the target registry.</td></tr></tbody></table>
+    </section>
+    <section>
+      <h2>Workflow inventory</h2>
+      <table><thead><tr><th>Workflow</th><th>Name</th><th>Triggers</th><th>Jobs</th><th>Permissions</th></tr></thead><tbody><tr><td>.github/workflows/risky.yml</td><td>Risky</td><td>pull_request_target</td><td>1</td><td>write-all</td></tr></tbody></table>
+    </section>
+    <section>
+      <h2>Actions</h2>
+      <table><thead><tr><th>Action</th><th>Kind</th><th>Ref type</th><th>Location</th></tr></thead><tbody><tr><td>actions/checkout@v6</td><td>official-github-action</td><td>major-tag</td><td>.github/workflows/risky.yml danger</td></tr><tr><td>some-owner/some-action@v1</td><td>third-party-action</td><td>major-tag</td><td>.github/workflows/risky.yml danger</td></tr></tbody></table>
+    </section>
+    <section>
+      <h2>Secrets</h2>
+      <table><thead><tr><th>Secret</th><th>Context</th><th>Location</th></tr></thead><tbody><tr><td>NPM_TOKEN</td><td>env</td><td>.github/workflows/risky.yml danger</td></tr></tbody></table>
+    </section>
+    <p class="note">gha-bom is static offline analysis. It is a visibility and prioritization aid, not proof that a workflow is safe.</p>
+  
+  </main>
+</body>
+</html>

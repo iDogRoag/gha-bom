@@ -5,16 +5,36 @@ labels:
   - enhancement
 body:
   - type: textarea
-    id: problem
+    id: use_case
     attributes:
-      label: Problem
-      description: What workflow or risk review would this improve?
+      label: Use case
+      description: What workflow review or risk mapping problem would this improve?
     validations:
       required: true
   - type: textarea
-    id: proposal
+    id: example_workflow
     attributes:
-      label: Proposal
-      description: What should gha-bom do?
+      label: Example workflow
+      description: Paste a minimal workflow or step shape if possible.
+      render: yaml
+    validations:
+      required: false
+  - type: textarea
+    id: expected_output
+    attributes:
+      label: Expected finding or report output
+      description: What should gha-bom show?
+    validations:
+      required: true
+  - type: dropdown
+    id: risk_score
+    attributes:
+      label: Should this affect risk score?
+      options:
+        - "No, inventory/reporting only"
+        - "Yes, low severity"
+        - "Yes, medium severity"
+        - "Yes, high severity"
+        - "Not sure"
     validations:
       required: true

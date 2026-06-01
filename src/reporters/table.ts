@@ -10,11 +10,25 @@ export function renderTable(data: Report | DiffReport): string {
 }
 
 function renderReportTable(report: Report): string {
+  if (report.summary.workflowsScanned === 0) {
+    const lines = [
+      "No GitHub Actions workflows found.",
+      "gha-bom scans .github/workflows by default.",
+      "Try gha-bom demo to see an example report."
+    ];
+
+    if (report.badge) {
+      lines.push("", report.badge.markdown);
+    }
+
+    return `${lines.join("\n")}\n`;
+  }
+
   const lines = [
-    pc.bold("gha-bom scan"),
+    pc.bold("gha-bom"),
     "",
     `${pc.bold("Status")} ${statusColor(report.summary.status)}`,
-    `${pc.bold("Risk score")} ${scoreColor(report.score.value)} ${pc.dim(`(${report.score.label})`)}`,
+    `${pc.bold("Risk score")} ${scoreColor(report.score.value)} out of 100 ${pc.dim(`(${report.score.label})`)}`,
     `${pc.bold("Workflows")} ${report.summary.workflowsScanned} workflows, ${report.summary.jobsScanned} jobs`,
     `${pc.bold("Actions")} ${report.summary.actionsFound} total, ${report.summary.thirdPartyActions} third party, ${report.summary.unpinnedThirdPartyActions} unpinned third party`,
     `${pc.bold("Access")} ${report.summary.secretsReferenced} secrets, ${report.summary.writePermissionJobs} jobs with write permissions, ${report.summary.releasePaths} release paths`,
@@ -22,12 +36,22 @@ function renderReportTable(report: Report): string {
     ""
   ];
 
-  const top = [...report.findings].sort((a, b) => severityRank(b.severity) - severityRank(a.severity)).slice(0, 8);
+  if (report.badge) {
+    lines.push(report.badge.markdown, "");
+  }
+
+  const sortedFindings = [...report.findings].sort((a, b) => severityRank(b.severity) - severityRank(a.severity));
+  const top = sortedFindings.slice(0, 5);
   if (top.length > 0) {
-    lines.push(pc.bold("Top findings"));
+    lines.push(pc.bold("Top risks"));
     for (const finding of top) {
       lines.push(`- ${severityColor(finding.severity)} ${finding.title} ${pc.dim(location(finding))}`);
       lines.push(`  ${pc.dim(finding.recommendation)}`);
+    }
+    if (sortedFindings.length > 5) {
+      lines.push("");
+      lines.push("Showing top 5 findings.");
+      lines.push("Use --show-workflows or --format markdown for details.");
     }
     lines.push("");
   }

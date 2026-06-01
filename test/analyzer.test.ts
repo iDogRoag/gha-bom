@@ -43,6 +43,7 @@ export function options(): CliScanOptions {
     showSteps: false,
     showSecrets: false,
     showEnv: false,
+    badge: false,
     ci: true,
     quiet: true,
     verbose: false

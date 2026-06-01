@@ -13,7 +13,14 @@ function renderReportMarkdown(report: Report): string {
     "# gha-bom report",
     "",
     `Risk score: **${report.score.value}/100** (${report.score.label})`,
-    "",
+    ""
+  ];
+
+  if (report.badge) {
+    lines.push(report.badge.markdown, "");
+  }
+
+  lines.push(
     "| Metric | Value |",
     "| --- | ---: |",
     `| Workflows scanned | ${report.summary.workflowsScanned} |`,
@@ -28,7 +35,7 @@ function renderReportMarkdown(report: Report): string {
     "",
     "## Top findings",
     ""
-  ];
+  );
 
   const topFindings = [...report.findings].sort(sortFindings).slice(0, 15);
   if (topFindings.length === 0) {

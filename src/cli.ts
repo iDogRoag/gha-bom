@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { Command, InvalidArgumentError } from "commander";
 import { scanRepository } from "./analyzer.js";
 import { ConfigError, loadConfig, mergeCliConfig } from "./config.js";
@@ -13,7 +14,7 @@ import { renderJson } from "./reporters/json.js";
 import { renderMarkdown } from "./reporters/markdown.js";
 import { renderTable } from "./reporters/table.js";
 import type { CliScanOptions, DiffReport, FailPolicy, OutputFormat, Report } from "./types.js";
-import { writeText } from "./utils/fs.js";
+import { pathExists, writeText } from "./utils/fs.js";
 
 const VERSION = "0.1.0";
 const OUTPUT_FORMATS = ["table", "json", "markdown", "html"] as const;
@@ -51,6 +52,7 @@ program
   .option("--show-env", "show environment variable names", false)
   .option("--min-score <number>", "minimum acceptable risk score", parseScore)
   .option("--fail-on <policy>", "none, high, medium, score-below, new-high, new-secret, new-write-permission, new-unpinned-action", parseFailPolicy)
+  .option("--badge", "print badge Markdown and include badge metadata in JSON", false)
   .option("--ci", "machine-friendly mode", false)
   .option("--quiet", "only print final result and errors", false)
   .option("--verbose", "print parser and detection details", false)
@@ -63,6 +65,32 @@ program
       const config = await effectiveConfig(targetPath, options);
       const failed = evaluateScanPolicy(report, config.failOn, config.minScore);
       process.exitCode = failed ? 1 : 0;
+    });
+  });
+
+program
+  .command("demo")
+  .description("Run a bundled risky workflow demo report.")
+  .option("--format <format>", "table, json, markdown, or html", parseFormat, "table")
+  .option("--output <file>", "write selected demo report format to a file")
+  .option("--badge", "print badge Markdown and include badge metadata in JSON", false)
+  .option("--quiet", "only write output files and errors", false)
+  .action(async (rawOptions: Partial<CliScanOptions>) => {
+    await withErrors(async () => {
+      const options = normalizeScanOptions({
+        ...rawOptions,
+        include: [],
+        exclude: [],
+        showWorkflows: true,
+        showJobs: true,
+        showSteps: true,
+        showSecrets: true,
+        showEnv: true
+      });
+      const demoPath = await resolveDemoPath();
+      const report = await scanRepository(demoPath, options);
+      const rendered = renderOutput(report, options.format);
+      await maybeWriteOrPrint(rendered, options.output, options.quiet);
     });
   });
 
@@ -149,10 +177,27 @@ function normalizeScanOptions(raw: Partial<CliScanOptions>): CliScanOptions {
     showEnv: Boolean(raw.showEnv),
     minScore: raw.minScore,
     failOn: raw.failOn,
+    badge: Boolean(raw.badge),
     ci: Boolean(raw.ci),
     quiet: Boolean(raw.quiet),
     verbose: Boolean(raw.verbose)
   };
+}
+
+async function resolveDemoPath(): Promise<string> {
+  const candidates = [
+    path.resolve(process.cwd(), "examples/risky"),
+    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "examples/risky"),
+    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "examples/risky")
+  ];
+
+  for (const candidate of candidates) {
+    if (await pathExists(candidate)) {
+      return candidate;
+    }
+  }
+
+  throw new Error("Bundled demo fixture not found. Reinstall gha-bom or run from the repository root.");
 }
 
 async function effectiveConfig(targetPath: string, options: CliScanOptions) {

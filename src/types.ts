@@ -96,6 +96,7 @@ export interface CliScanOptions {
   showEnv: boolean;
   minScore?: number;
   failOn?: FailPolicy;
+  badge: boolean;
   ci: boolean;
   quiet: boolean;
   verbose: boolean;
@@ -270,6 +271,12 @@ export interface RiskScore {
   note: string;
 }
 
+export interface BadgeInfo {
+  markdown: string;
+  label: string;
+  color: "brightgreen" | "yellowgreen" | "yellow" | "orange";
+}
+
 export interface ReportSummary {
   status: "pass" | "fail" | "partial";
   workflowsScanned: number;
@@ -296,6 +303,7 @@ export interface Report {
   repo: RepoInfo;
   summary: ReportSummary;
   score: RiskScore;
+  badge?: BadgeInfo;
   workflows: WorkflowBom[];
   actions: ActionReference[];
   secrets: SecretReference[];

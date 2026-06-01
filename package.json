@@ -17,9 +17,12 @@
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
+    "LAUNCH.md",
     "SECURITY.md",
     "CONTRIBUTING.md",
     "CODE_OF_CONDUCT.md",
+    "docs",
+    "examples",
     "package.json"
   ],
   "repository": {
@@ -41,7 +44,8 @@
     "devsecops",
     "workflow",
     "actions",
-    "static-analysis"
+    "static-analysis",
+    "developer-tools"
   ],
   "scripts": {
     "build": "tsup",

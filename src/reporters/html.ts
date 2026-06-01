@@ -16,6 +16,7 @@ function renderReport(report: Report): string {
       <div><span>Actions</span><strong>${report.summary.actionsFound}</strong><small>${report.summary.thirdPartyActions} third party</small></div>
       <div><span>Findings</span><strong>${report.summary.highFindings}</strong><small>high severity</small></div>
     </section>
+    ${report.badge ? `<p class="badge badge-${escapeHtml(report.badge.color)}">${escapeHtml(report.badge.label)}</p>` : ""}
     <section>
       <h2>Top findings</h2>
       ${table(["Severity", "Confidence", "Finding", "Location", "Recommendation"], report.findings.slice(0, 30).map((finding) => [
@@ -94,6 +95,11 @@ function page(title: string, body: string): string {
     .summary div { border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 8px; padding: 14px; }
     .summary span, .summary small { display: block; color: color-mix(in srgb, CanvasText 62%, transparent); }
     .summary strong { display: block; font-size: 30px; margin: 4px 0; }
+    .badge { display: inline-block; margin: 18px 0 0; padding: 6px 10px; border-radius: 6px; color: #111827; font-size: 14px; font-weight: 700; }
+    .badge-brightgreen { background: #4c1; }
+    .badge-yellowgreen { background: #97ca00; }
+    .badge-yellow { background: #dfb317; }
+    .badge-orange { background: #fe7d37; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; }
     th, td { text-align: left; vertical-align: top; border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent); padding: 8px; }
     th { background: color-mix(in srgb, CanvasText 7%, transparent); }

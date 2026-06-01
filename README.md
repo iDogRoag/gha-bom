@@ -1,193 +1,157 @@
 # gha-bom
 
+An SBOM for your GitHub Actions workflows.
+
 Generate an offline bill of materials for your GitHub Actions workflows.
 
-gha-bom inventories your GitHub Actions workflows, maps their CI/CD attack
-surface, and shows what changed in PR-friendly diffs.
-
-> Status: early OSS preview. Static offline analysis only.
-
-## Why This Exists
-
-GitHub Actions workflows are now part of the software supply chain. A
-compromised action can access `GITHUB_TOKEN`, job permissions, and secrets
-available to that job. SBOMs usually cover application dependencies, not the
-CI/CD workflows that build, test, publish, and deploy them.
-
-gha-bom answers three questions:
-
-1. What does this repo's GitHub Actions setup depend on?
-2. What permissions, secrets, runners, triggers, artifacts, environments, and
-   release paths does it expose?
-3. What changed in that CI/CD attack surface since the last scan?
-
-gha-bom is a visibility tool, not proof of safety.
-
-## How gha-bom Is Different
-
-zizmor is a GitHub Actions security linter.
-
-abom maps recursive action dependencies and known compromised actions.
-
-gha-bom is a local workflow inventory and attack-surface diff tool.
-
-Use them together.
-
-## Install
-
-gha-bom requires Node.js 24.
+gha-bom shows every action, permission, secret reference, trigger, runner,
+artifact, cache, and release path your CI/CD depends on. It also diffs reports
+so pull requests can show exactly what changed in your workflow attack surface.
 
 ```sh
-npm install -g gha-bom
+npx gha-bom scan .
 ```
 
-During local development:
-
 ```sh
-npm install
-npm run build
-node dist/cli.js scan .
+npx gha-bom demo
 ```
 
-## Quick Start
+```text
+gha-bom
 
-```sh
-gha-bom scan
-gha-bom scan --format markdown --output gha-bom-report.md
-gha-bom scan --format json --output current.json
-gha-bom diff .gha-bom/baseline.json current.json --format markdown
+Risk score 42 out of 100
+Workflows scanned 1
+Third party actions 1
+Unpinned third party actions 1
+Secrets referenced 1
+Write permission jobs 1
+High findings 5
+
+Top risks
+
+pull_request_target with write-all
+Secret passed to unpinned third party action
+Self-hosted runner used on pull_request_target
+Release path uses mutable action ref
+Workflow publishes packages with broad permissions
 ```
 
-The short alias is also available:
+```sh
+npx gha-bom demo --format html --output gha-bom-demo.html
+```
+
+Terminal GIF coming soon. Run `npx gha-bom demo` to see the same output
+locally.
+
+Demo assets:
+
+- [Terminal output](docs/assets/demo-output.txt)
+- [Markdown output](docs/assets/demo-output.md)
+- [HTML report](docs/assets/demo-report.html)
+
+## What is gha-bom
+
+gha-bom shows what your GitHub Actions workflows depend on, what they can
+access, and what changed.
+
+It is not just a security scanner. It is a local workflow inventory, risk map,
+and diff tool for the CI/CD layer of your supply chain.
+
+## Why this exists
+
+SBOMs usually cover application dependencies, but not the workflows that build
+and publish them. GitHub Actions workflows can pull third-party actions, mint
+OIDC tokens, publish packages, upload artifacts, use self-hosted runners, and
+receive secrets or `GITHUB_TOKEN` access.
+
+gha-bom helps teams see and review that workflow attack surface before it
+changes quietly.
+
+## Quickstart
 
 ```sh
+npx gha-bom scan .
+```
+
+For the short alias:
+
+```sh
+npx gha-bom scan .
 gbom scan .
 ```
 
-## Example Output
+## Demo
+
+The demo works even before you have a repository to scan.
+
+```sh
+npx gha-bom demo
+npx gha-bom demo --format markdown
+npx gha-bom demo --format json
+npx gha-bom demo --format html --output gha-bom-demo.html
+npx gha-bom demo --badge
+```
+
+## Example output
 
 ```text
-gha-bom scan
+gha-bom
 
 Status fail
-Risk score 64 (high risk)
-Workflows 4 workflows, 8 jobs
-Actions 19 total, 5 third party, 4 unpinned third party
-Access 3 secrets, 2 jobs with write permissions, 2 release paths
-Findings 2 high, 6 medium, 8 low
+Risk score 0 out of 100 (critical risk)
+Workflows 1 workflows, 1 jobs
+Actions 2 total, 1 third party, 1 unpinned third party
+Access 1 secrets, 1 jobs with write permissions, 1 release paths
+Findings 12 high, 4 medium, 10 low
+
+Top risks
+- [high] Workflow uses write-all permissions
+- [high] pull_request_target has write permissions
+- [high] Secret passed to unpinned third-party action
+- [high] Self-hosted runner used on pull request trigger
+- [high] Release path uses unpinned third-party action
+
+Showing top 5 findings.
+Use --show-workflows or --format markdown for details.
 ```
 
-## Commands
+## What it detects
 
-### Scan
+- workflow triggers, permissions, jobs, steps, and runners
+- action references, owners, refs, ref types, and mutable refs
+- local actions and local reusable workflows
+- remote reusable workflows and `secrets: inherit`
+- secret references and secret-looking env keys
+- `GITHUB_TOKEN` and implicit token exposure through permissions
+- OIDC permissions and common cloud auth actions
+- artifact upload/download paths
+- cache keys and cache paths
+- package, container, GitHub release, Pages, and deployment paths
+- risky patterns with severity and confidence
+
+## Diff mode
 
 ```sh
-gha-bom scan [path]
+gha-bom scan . --format json --output current.json
+gha-bom diff .gha-bom/baseline.json current.json --format markdown
 ```
 
-Scans `.github/workflows/*.{yml,yaml}` by default and reports statically
-visible workflows, actions, refs, permissions, secret references, triggers,
-runners, OIDC use, artifact paths, cache keys, release paths, findings, and a
-heuristic risk score.
+Diff mode detects new workflows, jobs, actions, changed refs, unpinned action
+changes, new secret references, widened permissions, new `pull_request_target`
+triggers, self-hosted runners, OIDC use, release paths, artifact paths, cache
+paths, score changes, and new high findings.
 
-Examples:
-
-```sh
-gha-bom scan
-gha-bom scan ./repo
-gha-bom scan --format json
-gha-bom scan --format markdown
-gha-bom scan --format html --output gha-bom.html
-gha-bom scan --show-workflows --show-secrets
-gha-bom scan --fail-on high
-gha-bom scan --fail-on score-below --min-score 80
-gha-bom scan --config gha-bom.yml
-```
-
-### Explain
+## Explain mode
 
 ```sh
 gha-bom explain .github/workflows/release.yml
 gha-bom explain .github/workflows/ci.yml --format markdown
 ```
 
-Explains one workflow in detail with triggers, permissions, jobs, runners,
-actions, secrets, release paths, findings, and suggested next steps.
+Explain mode focuses the report on one workflow so it is easier to review or
+share in an issue.
 
-### Diff
-
-```sh
-gha-bom diff baseline.json current.json
-gha-bom diff baseline.json current.json --format markdown
-gha-bom diff baseline.json current.json --fail-on new-high
-gha-bom diff baseline.json current.json --fail-on new-secret
-```
-
-Diff mode detects new workflows, jobs, actions, changed refs, action unpinning,
-new third-party actions, new secret references, widened permissions, new
-`pull_request_target`, new self-hosted runners, OIDC use, release paths,
-artifact paths, cache paths, risk score changes, and new high findings.
-
-### Init
-
-```sh
-gha-bom init
-gha-bom init ./repo --force
-```
-
-Creates a starter `gha-bom.yml` config.
-
-### Doctor
-
-```sh
-gha-bom doctor
-```
-
-Checks local Node.js, npm, and optional git availability.
-
-## Config File
-
-gha-bom looks for:
-
-1. `gha-bom.yml`
-2. `gha-bom.yaml`
-3. `.gha-bom.yml`
-4. `.gha-bom.yaml`
-
-Example:
-
-```yaml
-version: 1
-minScore: 80
-failOn:
-  - high
-include:
-  - ".github/workflows/*.{yml,yaml}"
-exclude: []
-trustedActions:
-  - "actions/*"
-  - "github/*"
-  - "docker/*"
-trustedOwners:
-  - "my-org"
-allowedSecrets:
-  - "GITHUB_TOKEN"
-allowedSelfHostedLabels:
-  - "linux-secure"
-risk:
-  allowPullRequestTarget: false
-  requireExplicitPermissions: true
-  requireShaPinnedThirdPartyActions: true
-  allowSecretsInPullRequestTarget: false
-  allowWriteAll: false
-  allowSecretsInThirdPartyActions: false
-diff:
-  baseline: ".gha-bom/baseline.json"
-```
-
-Bad config shows the file path and field path.
-
-## GitHub Actions Usage
+## GitHub Actions usage
 
 For readability, this example uses major tags. For the strongest
 reproducibility, pin third-party actions to full commit SHAs.
@@ -220,22 +184,75 @@ jobs:
           path: gha-bom-report.md
 ```
 
-Baseline diff usage:
+## How gha-bom is different
+
+zizmor is a GitHub Actions security linter.
+abom maps recursive action dependencies and known compromised actions.
+gha-bom is a local workflow inventory and attack surface diff tool.
+
+Use them together.
+
+## Install
+
+gha-bom requires Node.js 24.
 
 ```sh
-gha-bom scan . --format json --output current.json
-gha-bom diff .gha-bom/baseline.json current.json --format markdown --fail-on new-high
+npm install -g gha-bom
+gha-bom scan .
 ```
 
-## Report Formats
+Local development:
 
-- `table`: concise terminal report.
-- `json`: stable machine-readable schema.
-- `markdown`: PR comment-ready report.
-- `html`: single self-contained HTML report with escaped content and no
-  external assets.
+```sh
+npm install
+npm test
+npm run build
+node dist/cli.js demo
+```
 
-## Risk Score
+## Configuration
+
+Create a starter config:
+
+```sh
+gha-bom init
+```
+
+gha-bom looks for `gha-bom.yml`, `gha-bom.yaml`, `.gha-bom.yml`, or
+`.gha-bom.yaml`.
+
+```yaml
+version: 1
+minScore: 80
+failOn:
+  - high
+include:
+  - ".github/workflows/*.{yml,yaml}"
+exclude: []
+risk:
+  allowPullRequestTarget: false
+  requireExplicitPermissions: true
+  requireShaPinnedThirdPartyActions: true
+  allowSecretsInPullRequestTarget: false
+  allowWriteAll: false
+  allowSecretsInThirdPartyActions: false
+```
+
+## Report formats
+
+- `table`: compact terminal output
+- `json`: stable machine-readable schema
+- `markdown`: PR comment-ready report
+- `html`: single self-contained report with no external assets
+
+gha-bom can print badge Markdown with `--badge`, but it does not host badges in
+v1.
+
+```sh
+gha-bom scan . --badge
+```
+
+## Risk score
 
 The risk score starts at 100 and subtracts heuristic penalties for risky
 patterns such as `pull_request_target` with write permissions, `write-all`,
@@ -244,63 +261,62 @@ request triggers, remote reusable workflows with `secrets: inherit`, release
 paths with mutable third-party actions, broad artifact paths, and unnecessary
 OIDC permissions.
 
-Labels:
-
-- 90 to 100: low risk
-- 70 to 89: moderate risk
-- 50 to 69: high risk
-- 0 to 49: critical risk
-
 The score is a prioritization aid, not proof that a workflow is safe.
 
-## Security Model
+## Security model
 
-gha-bom does not execute target repository code.
+gha-bom is static offline analysis.
 
-It reads:
+Default scan, demo, explain, diff, and report generation do not call the GitHub
+API by default, do not make network calls, do not use an advisory database, do
+not send telemetry, and do not call AI services.
 
-- GitHub Actions workflow YAML
-- `gha-bom.yml` config files
-- local composite action metadata under `.github/actions` when referenced
+gha-bom commands do not call the GitHub API by default.
 
-Default scan, explain, diff, and report generation do not make network calls,
-GitHub API calls, telemetry calls, advisory database calls, or AI calls.
-
-gha-bom records secret names only. It never attempts to read secret values and
-redacts secret-looking environment values in output.
+gha-bom reads workflow YAML, optional gha-bom config files, and local composite
+action metadata under `.github/actions` when referenced. It records secret
+names visible in workflow files, never secret values.
 
 ## Limitations
 
-gha-bom is static offline analysis. It does not:
+gha-bom does not prove a workflow is safe. It does not verify whether an action
+is malicious, verify GitHub owner identity, verify whether a remote ref is
+really a branch or tag, verify whether secrets exist in repository settings, or
+query branch protection, rulesets, environment protection, or action allow
+policies.
 
-- verify whether an action is malicious
-- verify GitHub owner identity
-- verify whether a named ref is truly a branch or tag
-- verify whether secrets exist in repository settings
-- query branch protection, rulesets, or environment protection
-- fetch remote action metadata
-- replace tools like zizmor or abom
-
-Offline reports include unknowns for facts that require GitHub-side context.
+It complements tools like zizmor, abom, and GitHub security features. It does
+not replace them.
 
 ## Roadmap
 
 - Recursive remote action metadata resolution
 - Optional GitHub API enrichment
-- Known-compromised action advisory checks
+- Known compromised action advisory checks
 - CycloneDX output
 - SPDX output
 - SARIF output
 - PR comment mode
 - GitHub App
-- Organization-wide scan
+- Organization wide scan
 - Baseline management
-- Dependency locking suggestions
+- Badge hosting
 - Integration with zizmor and abom outputs
+- Monorepo workflow map
+- VS Code extension
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Good first contributions
+
+- Add more workflow risk patterns.
+- Improve report formatting.
+- Add more test fixtures.
+- Improve action reference parsing.
+- Add new release path detectors.
+- Add docs examples from real workflows.
 
 ## License
 
