@@ -1,5 +1,11 @@
 # gha-bom
 
+[![CI](https://github.com/iDogRoag/gha-bom/actions/workflows/ci.yml/badge.svg)](https://github.com/iDogRoag/gha-bom/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/gha-bom)](https://www.npmjs.com/package/gha-bom)
+[![npm downloads](https://img.shields.io/npm/dm/gha-bom)](https://www.npmjs.com/package/gha-bom)
+[![license](https://img.shields.io/npm/l/gha-bom)](LICENSE)
+[![Node 24](https://img.shields.io/badge/node-24.x-brightgreen)](package.json)
+
 An SBOM for your GitHub Actions workflows.
 
 Generate an offline bill of materials for your GitHub Actions workflows.
@@ -40,14 +46,17 @@ Workflow publishes packages with broad permissions
 npx gha-bom demo --format html --output gha-bom-demo.html
 ```
 
-Terminal GIF coming soon. Run `npx gha-bom demo` to see the same output
-locally.
+Preview the demo output:
 
-Demo assets:
+- Terminal output: [docs/assets/demo-output.txt](docs/assets/demo-output.txt)
+- Markdown report: [docs/assets/demo-output.md](docs/assets/demo-output.md)
+- HTML report: [docs/assets/demo-report.html](docs/assets/demo-report.html)
 
-- [Terminal output](docs/assets/demo-output.txt)
-- [Markdown output](docs/assets/demo-output.md)
-- [HTML report](docs/assets/demo-report.html)
+More screenshot-friendly samples:
+
+- [Sample risky report](docs/sample-report.md)
+- [Sample attack-surface diff](docs/sample-diff.md)
+- [Sample HTML report](docs/sample-report.html)
 
 ## What is gha-bom
 

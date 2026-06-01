@@ -16,7 +16,7 @@ import { renderTable } from "./reporters/table.js";
 import type { CliScanOptions, DiffReport, FailPolicy, OutputFormat, Report } from "./types.js";
 import { pathExists, writeText } from "./utils/fs.js";
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 const OUTPUT_FORMATS = ["table", "json", "markdown", "html"] as const;
 const FAIL_POLICIES = [
   "none",

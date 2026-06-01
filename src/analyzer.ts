@@ -34,7 +34,7 @@ import { nowIso } from "./utils/time.js";
 import { stableId, uniq } from "./utils/text.js";
 import { isRecord, parseYaml } from "./utils/yaml.js";
 
-const TOOL_VERSION = "0.1.0";
+const TOOL_VERSION = "0.1.1";
 
 export async function scanRepository(targetPath: string, options: CliScanOptions): Promise<Report> {
   const root = path.resolve(targetPath || process.cwd());

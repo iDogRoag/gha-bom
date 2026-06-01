@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "tool": {
     "name": "gha-bom",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "repo": {
-    "root": "/Users/idog/web projects/GHA BOOM/examples/basic",
+    "root": "examples/basic",
     "scannedAt": "2026-06-01T22:19:34.473Z",
     "offline": true,
     "unknowns": [
@@ -253,7 +253,7 @@
       "confidence": "high",
       "title": "Config missing",
       "message": "No gha-bom config file was found.",
-      "filePath": "/Users/idog/web projects/GHA BOOM/examples/basic",
+      "filePath": "examples/basic",
       "evidence": "config missing",
       "recommendation": "Run gha-bom init to create a project policy file when you want repeatable CI settings.",
       "category": "config"
