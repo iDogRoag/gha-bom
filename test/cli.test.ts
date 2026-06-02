@@ -109,7 +109,7 @@ describe("cli", () => {
     expect(result.status).toBe(0);
     expect(await fs.readFile(output, "utf8")).toContain("gha-bom report");
     const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
-    expect(packageJson.bin.gbom).toBe("./dist/cli.js");
+    expect(packageJson.bin.gbom).toBe("dist/cli.js");
   });
 
   it("--badge outputs badge Markdown", () => {
