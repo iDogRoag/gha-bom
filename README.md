@@ -10,6 +10,8 @@ An SBOM for your GitHub Actions workflows.
 
 Generate an offline bill of materials for your GitHub Actions workflows.
 
+![gha-bom demo screenshot](docs/assets/demo.png)
+
 gha-bom shows every action, permission, secret reference, trigger, runner,
 artifact, cache, and release path your CI/CD depends on. It also diffs reports
 so pull requests can show exactly what changed in your workflow attack surface.
