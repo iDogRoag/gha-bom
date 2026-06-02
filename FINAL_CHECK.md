@@ -81,3 +81,43 @@ Date: 2026-06-01
 ## Recommended next action
 
 Tag and release `v0.1.1` after confirming the npm package state, then use `docs/release-v0.1.1.md` for release notes and `docs/issue-seeds.md` to seed public contribution issues.
+
+## Final README polish
+
+Date: 2026-06-01
+
+Commands run:
+
+- `npm test -- test/launch.test.ts`
+- `npm test`
+- `npm run build`
+- `npm run typecheck`
+- `npm pack --dry-run`
+- README text scan for removed demo line and unfinished-marker terms
+
+Commands passed:
+
+- `npm test -- test/launch.test.ts`: 1 file passed, 6 tests passed.
+- `npm test`: 13 files passed, 81 tests passed.
+- `npm run build`: passed.
+- `npm run typecheck`: passed.
+- `npm pack --dry-run`: passed after rerunning outside the sandbox; package is `gha-bom@0.1.1`, 47 files, about 74.6 kB packed.
+- README text scan: passed.
+
+Commands failed:
+
+- Initial sandboxed `npm pack --dry-run` built successfully, then failed only because npm could not write logs under the user npm log directory. The command was rerun with normal npm filesystem access and passed.
+
+Files changed:
+
+- `README.md`
+- `test/launch.test.ts`
+- `FINAL_CHECK.md`
+
+Manual next steps:
+
+- Publish or verify npm package.
+- Create `v0.1.1` GitHub release.
+- Open seed issues.
+- Add screenshot or GIF.
+- Post launch.

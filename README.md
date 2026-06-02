@@ -14,9 +14,13 @@ gha-bom shows every action, permission, secret reference, trigger, runner,
 artifact, cache, and release path your CI/CD depends on. It also diffs reports
 so pull requests can show exactly what changed in your workflow attack surface.
 
+Quickstart:
+
 ```sh
 npx gha-bom scan .
 ```
+
+Demo:
 
 ```sh
 npx gha-bom demo

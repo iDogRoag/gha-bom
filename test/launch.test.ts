@@ -10,8 +10,15 @@ describe("launch readiness docs", () => {
     expect(readme).toContain("## How gha-bom is different");
     expect(readme).toContain("static offline analysis");
     expect(readme).toContain("do not call the GitHub API by default");
-    const removedPlaceholder = ["Terminal GIF", " coming soon"].join("");
-    expect(readme).not.toContain(removedPlaceholder);
+    expect(readme.split(/\r?\n/).length).toBeGreaterThan(80);
+    expect(readme).toContain(fencedCommand("npx gha-bom scan ."));
+    expect(readme).toContain(fencedCommand("npx gha-bom demo"));
+    expect(readme).toContain(fencedCommand("gha-bom init"));
+    expect(readme).not.toContain(["Terminal GIF", " coming soon"].join(""));
+    expect(readme).not.toContain("YOUR_USERNAME");
+    expect(readme).not.toContain("TODO");
+    expect(readme).not.toContain("placeholder");
+    expect(readme).not.toContain("unpublished");
   });
 
   it("launch docs exist", async () => {
@@ -25,6 +32,17 @@ describe("launch readiness docs", () => {
     await expectExists("docs/sample-report.md");
     await expectExists("docs/sample-diff.md");
     await expectExists("docs/npm-publish-check.md");
+  });
+
+  it("README local links point at committed files", async () => {
+    await expectExists("docs/assets/demo-output.txt");
+    await expectExists("docs/assets/demo-output.md");
+    await expectExists("docs/assets/demo-report.html");
+    await expectExists("docs/sample-report.md");
+    await expectExists("docs/sample-diff.md");
+    await expectExists("docs/sample-report.html");
+    await expectExists("CONTRIBUTING.md");
+    await expectExists("LICENSE");
   });
 
   it("package contents are configured for npm", async () => {
@@ -59,4 +77,8 @@ function runCli(args: string[]) {
     cwd: process.cwd(),
     encoding: "utf8"
   });
+}
+
+function fencedCommand(command: string): string {
+  return `\`\`\`sh\n${command}\n\`\`\``;
 }
