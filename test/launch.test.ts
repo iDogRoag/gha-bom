@@ -48,7 +48,7 @@ describe("launch readiness docs", () => {
   it("package contents are configured for npm", async () => {
     const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
     expect(packageJson.name).toBe("gha-bom");
-    expect(packageJson.version).toBe("0.1.1");
+    expect(packageJson.version).toBe("0.1.2");
     expect(packageJson.description).toBe("Offline GitHub Actions bill of materials, risk map, and diff tool.");
     expect(packageJson.bin).toEqual({
       "gha-bom": "dist/cli.js",

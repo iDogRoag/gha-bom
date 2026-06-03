@@ -159,3 +159,57 @@ Manual next steps:
 - Open seed issues.
 - Add screenshot or GIF.
 - Post launch.
+
+## v0.1.2 release alignment
+
+Date: 2026-06-02
+
+Reason:
+
+- GitHub release `v0.1.1` points at commit `5d653f3`.
+- The npm publish readiness work landed after that release.
+- `v0.1.2` aligns the npm package, source archive, tag, and GitHub release.
+
+Commands run:
+
+- `npm test`
+- `npm run build`
+- `npm run typecheck`
+- `npm pack --dry-run --cache /private/tmp/gha-bom-npm-cache`
+- `node dist/cli.js --version`
+- `node dist/cli.js demo`
+
+Commands passed:
+
+- `npm test`: 13 files passed, 82 tests passed.
+- `npm run build`: passed.
+- `npm run typecheck`: passed.
+- `npm pack --dry-run --cache /private/tmp/gha-bom-npm-cache`: passed; package is `gha-bom@0.1.2`, 49 files, about 269.5 kB packed.
+- `node dist/cli.js --version`: printed `0.1.2`.
+- `node dist/cli.js demo`: passed.
+
+Files changed:
+
+- `CHANGELOG.md`
+- `FINAL_CHECK.md`
+- `docs/npm-publish-check.md`
+- `docs/release-v0.1.2.md`
+- `examples/baseline/new.json`
+- `examples/baseline/old.json`
+- `package-lock.json`
+- `package.json`
+- `src/analyzer.ts`
+- `src/cli.ts`
+- `src/diff.ts`
+- `src/explain.ts`
+- `test/launch.test.ts`
+
+Manual next steps:
+
+- Push `main` with the `v0.1.2` tag.
+- `npm publish`
+- `npm view gha-bom version`
+- `npx gha-bom@latest --version`
+- `npx gha-bom@latest demo`
+- `npx gha-bom@latest scan . --format markdown`
+- Create GitHub release `v0.1.2`.

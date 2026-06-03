@@ -10,7 +10,7 @@ import type {
 import { narrowedPermission, widenedPermission } from "./detectors/permissions.js";
 import { stableId } from "./utils/text.js";
 
-const TOOL_VERSION = "0.1.1";
+const TOOL_VERSION = "0.1.2";
 
 export function diffReports(oldReport: Report, newReport: Report): DiffReport {
   const changes: DiffFinding[] = [];

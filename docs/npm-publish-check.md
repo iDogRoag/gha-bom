@@ -25,13 +25,13 @@ npx gha-bom@latest scan . --format markdown
 - `npm pack --dry-run` lists only intended package files.
 - `npm publish --dry-run` completes without packaging or registry errors.
 - `npm publish` publishes the package from the maintainer account.
-- After publish, `npm view gha-bom version` prints `0.1.1`.
-- `npx gha-bom@latest --version` prints `0.1.1`.
+- After publish, `npm view gha-bom version` prints `0.1.2`.
+- `npx gha-bom@latest --version` prints `0.1.2`.
 - `npx gha-bom@latest demo` runs the bundled demo.
 - `npx gha-bom@latest scan . --format markdown` scans a local checkout and
   prints Markdown output.
 
-If `npm view gha-bom version` already returns `0.1.1`, do not republish the
+If `npm view gha-bom version` already returns `0.1.2`, do not republish the
 same version.
 
 ## If the package name is already taken

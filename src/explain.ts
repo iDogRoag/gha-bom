@@ -64,7 +64,7 @@ function renderWorkflowFromReport(report: Report, workflow: WorkflowBom, format:
 function renderSingleWorkflow(workflow: WorkflowBom, findings: Report["findings"], format: OutputFormat): string {
   const report: Report = {
     schemaVersion: 1,
-    tool: { name: "gha-bom", version: "0.1.1" },
+    tool: { name: "gha-bom", version: "0.1.2" },
     repo: {
       root: path.dirname(workflow.filePath),
       scannedAt: new Date().toISOString(),
