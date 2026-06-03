@@ -121,3 +121,41 @@ Manual next steps:
 - Open seed issues.
 - Add screenshot or GIF.
 - Post launch.
+
+## npm publish readiness
+
+Date: 2026-06-02
+
+Commands run:
+
+- `npm test -- test/launch.test.ts`
+- Stale text scan for release-blocking placeholder and local path strings
+- `npm test`
+- `npm run build`
+- `npm run typecheck`
+- `npm pack --dry-run`
+
+Commands passed:
+
+- `npm test -- test/launch.test.ts`: 1 file passed, 7 tests passed.
+- Stale text scan: passed.
+- `npm test`: 13 files passed, 82 tests passed.
+- `npm run build`: passed.
+- `npm run typecheck`: passed.
+- `npm pack --dry-run`: passed after rerunning outside the sandbox; package is `gha-bom@0.1.1`, 48 files, about 269.4 kB packed.
+
+Files changed:
+
+- `docs/npm-publish-check.md`
+- `test/launch.test.ts`
+- `FINAL_CHECK.md`
+
+Manual next steps:
+
+- `npm publish`
+- `npm view gha-bom version`
+- `npx gha-bom@latest demo`
+- `npx gha-bom@latest scan . --format markdown`
+- Open seed issues.
+- Add screenshot or GIF.
+- Post launch.

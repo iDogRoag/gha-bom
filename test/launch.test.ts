@@ -47,10 +47,38 @@ describe("launch readiness docs", () => {
 
   it("package contents are configured for npm", async () => {
     const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
-    expect(packageJson.files).toEqual(
-      expect.arrayContaining(["dist", "README.md", "LICENSE", "CHANGELOG.md", "package.json", "docs", "examples"])
-    );
-    expect(packageJson.files).not.toEqual(expect.arrayContaining(["src", "test", "coverage"]));
+    expect(packageJson.name).toBe("gha-bom");
+    expect(packageJson.version).toBe("0.1.1");
+    expect(packageJson.description).toBe("Offline GitHub Actions bill of materials, risk map, and diff tool.");
+    expect(packageJson.bin).toEqual({
+      "gha-bom": "dist/cli.js",
+      gbom: "dist/cli.js"
+    });
+    expect(normalizeRepositoryUrl(packageJson.repository)).toBe("https://github.com/iDogRoag/gha-bom");
+    expect(packageJson.bugs.url).toBe("https://github.com/iDogRoag/gha-bom/issues");
+    expect(packageJson.homepage).toBe("https://github.com/iDogRoag/gha-bom#readme");
+    expect(packageJson.files).toEqual([
+      "dist",
+      "README.md",
+      "LICENSE",
+      "CHANGELOG.md",
+      "LAUNCH.md",
+      "SECURITY.md",
+      "CONTRIBUTING.md",
+      "CODE_OF_CONDUCT.md",
+      "docs",
+      "examples",
+      "package.json"
+    ]);
+  });
+
+  it("npm publish checklist covers manual publish and verification", async () => {
+    const checklist = await fs.readFile("docs/npm-publish-check.md", "utf8");
+    expect(checklist).toContain("npm publish");
+    expect(checklist).toContain("npx gha-bom@latest demo");
+    expect(checklist).toContain("npx gha-bom@latest scan . --format markdown");
+    expect(checklist).toContain("do not republish the");
+    expect(checklist).toContain("If `gha-bom` is unavailable on npm, stop.");
   });
 
   it("demo command still works", () => {
@@ -81,4 +109,14 @@ function runCli(args: string[]) {
 
 function fencedCommand(command: string): string {
   return `\`\`\`sh\n${command}\n\`\`\``;
+}
+
+function normalizeRepositoryUrl(repository: unknown): string {
+  const raw =
+    typeof repository === "string"
+      ? repository
+      : repository && typeof repository === "object" && "url" in repository
+        ? String(repository.url)
+        : "";
+  return raw.replace(/^git\+/, "").replace(/\.git$/, "");
 }

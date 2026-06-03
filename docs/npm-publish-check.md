@@ -7,15 +7,14 @@ automation or from a machine that is not logged in to the intended npm account.
 
 ```sh
 npm whoami
-npm view gha-bom version --registry https://registry.npmjs.org/
+npm view gha-bom version
 npm pack --dry-run
-npm publish --dry-run --registry https://registry.npmjs.org/
-```
-
-When ready to publish:
-
-```sh
-npm publish --access public --registry https://registry.npmjs.org/
+npm publish --dry-run
+npm publish
+npm view gha-bom version
+npx gha-bom@latest --version
+npx gha-bom@latest demo
+npx gha-bom@latest scan . --format markdown
 ```
 
 ## What success looks like
@@ -25,18 +24,23 @@ npm publish --access public --registry https://registry.npmjs.org/
   404 before the first publish.
 - `npm pack --dry-run` lists only intended package files.
 - `npm publish --dry-run` completes without packaging or registry errors.
-- After publish, `npm view gha-bom version --registry https://registry.npmjs.org/`
-  prints the new version.
+- `npm publish` publishes the package from the maintainer account.
+- After publish, `npm view gha-bom version` prints `0.1.1`.
+- `npx gha-bom@latest --version` prints `0.1.1`.
+- `npx gha-bom@latest demo` runs the bundled demo.
+- `npx gha-bom@latest scan . --format markdown` scans a local checkout and
+  prints Markdown output.
+
+If `npm view gha-bom version` already returns `0.1.1`, do not republish the
+same version.
 
 ## If the package name is already taken
 
-If `gha-bom` is unavailable on npm, do not publish under a confusing name. Pick
-one of these options:
+If `gha-bom` is unavailable on npm, stop. Do not publish under a confusing name
+while the README still uses `npx gha-bom`.
 
-- use a scoped package such as `@idogroag/gha-bom`
-- choose a new CLI/package name and update README, package metadata, binary
-  names, docs, and examples consistently
-- keep the GitHub release as source-only until naming is resolved
+Before launch, update README commands, package metadata, binary names, docs,
+examples, and release notes to the final npm package name.
 
 ## Package contents
 
